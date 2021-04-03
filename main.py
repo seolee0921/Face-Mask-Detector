@@ -8,7 +8,7 @@ ws = wb.create_sheet("sample")
 
 n = 1
 for y in range(1, image.shape[0]):
-    for x in range(image.shape[1]):
+    for x in range(1, image.shape[1]):
         ws.cell(row=y, column=x, value=n)
         n += 1
 
