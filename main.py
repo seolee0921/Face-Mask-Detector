@@ -1,40 +1,52 @@
 import sys
-from PyQt5.QtWidgets import QApplication, QWidget, QDesktopWidget, QPushButton, QBoxLayout
-from PyQt5.QtGui import QIcon
-from win32api import GetSystemMetrics
-from PyQt5.QtCore import QCoreApplication
-import time
+from PyQt5.QtWidgets import QApplication, QWidget, QVBoxLayout, QPushButton, QLabel, QDesktopWidget
+import PyQt5
+from PyQt5.QtGui import QPixmap
+from PyQt5.QtCore import Qt
 
-class Myapp(QWidget):
+class APP(QWidget):
 
     def __init__(self):
         super().__init__()
         self.initUI()
 
+
     def initUI(self):
+        self.setWindowTitle("Face Mask Detector")
+        self.setGeometry(300, 300, 300, 300)
+        self.CENTER()
 
-        self.setWindowTitle('Face_Mask_Detector')
-        self.resize(GetSystemMetrics(0) / 3 * 2, GetSystemMetrics(1) / 3 * 2)
-        self.center()
-        self.setWindowIcon(QIcon('python.png'))
+        image = QPixmap("teemo minimalistic.jpg")
 
-            self.AddButton()
-            self.show()
+        lbl_img = QLabel()
+        lbl_img.setPixmap(image)
+        lbl_size = QLabel('Width: ' + str(image.width()) + ', Height: ' + str(image.height()))
+        lbl_size.setAlignment(Qt.AlignCenter)
 
+        vbox = QVBoxLayout()
+        vbox.addWidget(lbl_img)
+        vbox.addWidget(lbl_size)
 
-    def AddButton(self):
-        btn = QPushButton('Push', self)
-        btn.setGeometry(self.width() / 2, self.height() / 2, self.width() / 20, self.height() / 20)
-        btn.clicked.connect(QCoreApplication.instance().quit)
+        self.PUSHBUTTON("PUSH BUTTON", True, vbox)
 
-    def center(self):
+        self.setLayout(vbox)
+
+        self.showMaximized()
+
+    def PUSHBUTTON(self, title, bl, vbox):
+        btn = QPushButton(title, self)
+        btn.setEnabled(bl)
+        vbox.addWidget(btn)
+
+    def CENTER(self):
         qr = self.frameGeometry()
         cp = QDesktopWidget().availableGeometry().center()
         qr.moveCenter(cp)
         self.move(qr.topLeft())
 
 
+
 if __name__ == '__main__':
     app = QApplication(sys.argv)
-    ex = Myapp()
+    ex = APP()
     sys.exit(app.exec_())
