@@ -1,6 +1,5 @@
 import sys
 from PyQt5.QtWidgets import QApplication, QWidget, QVBoxLayout, QPushButton, QLabel, QDesktopWidget
-import PyQt5
 from PyQt5.QtGui import QPixmap
 from PyQt5.QtCore import Qt
 
@@ -10,33 +9,38 @@ class APP(QWidget):
         super().__init__()
         self.initUI()
 
-
     def initUI(self):
         self.setWindowTitle("Face Mask Detector")
         self.setGeometry(300, 300, 300, 300)
         self.CENTER()
 
-        image = QPixmap("teemo minimalistic.jpg")
+        # value
+        self.number = 1
 
-        lbl_img = QLabel()
-        lbl_img.setPixmap(image)
-        lbl_size = QLabel('Width: ' + str(image.width()) + ', Height: ' + str(image.height()))
-        lbl_size.setAlignment(Qt.AlignCenter)
+        # image
+        div = 10
+        self.image1 = QPixmap("teemo.jpg")
+        self.lbl_img = QLabel()
+        self.lbl_img.setPixmap(self.image1)
+        self.lbl_img.setAlignment(Qt.AlignCenter)
 
-        vbox = QVBoxLayout()
-        vbox.addWidget(lbl_img)
-        vbox.addWidget(lbl_size)
+        self.image2 = QPixmap("teemo.png")
 
-        self.PUSHBUTTON("PUSH BUTTON", True, vbox)
+        # push button
+        btn1 = QPushButton("change picture", self)
+        btn1.setEnabled(True)
 
-        self.setLayout(vbox)
+        # label
+        self.vbox = QVBoxLayout()
+        self.vbox.addWidget(self.lbl_img)
+        self.vbox.addWidget(btn1)
+
+        self.setLayout(self.vbox)
+
+        # event
+        btn1.clicked.connect(self.CHANGE)
 
         self.showMaximized()
-
-    def PUSHBUTTON(self, title, bl, vbox):
-        btn = QPushButton(title, self)
-        btn.setEnabled(bl)
-        vbox.addWidget(btn)
 
     def CENTER(self):
         qr = self.frameGeometry()
@@ -44,6 +48,14 @@ class APP(QWidget):
         qr.moveCenter(cp)
         self.move(qr.topLeft())
 
+    def CHANGE(self):
+        if self.number is 1:
+            self.number = 2
+            self.lbl_img.setPixmap(self.image2)
+
+        else:
+            self.number = 1
+            self.lbl_img.setPixmap(self.image1)
 
 
 if __name__ == '__main__':
